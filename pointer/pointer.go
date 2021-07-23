@@ -19,9 +19,11 @@ type Wallet struct {
     balance Bitcoin
 }
 
+var insufficientFundErr = errors.New("cannot withdraw, insufficiant funds")
+
 func (w *Wallet)WithDraw(coin Bitcoin)error{
     if coin > w.balance{
-        return errors.New("more than the amount you have")
+        return insufficientFundErr
     }
     w.balance -= coin
     return nil

@@ -13,7 +13,7 @@ func TestDictionary(t *testing.T){
         dictionary := Dictionary{"test":"this is just a test"}
         _,got := dictionary.Search("unknown")
         //want := "cannot find the word you searched"
-	assertError(t,got,errorNotFound)
+	assertError(t,got,ErrNotFound)
 })
 }
 
@@ -33,9 +33,18 @@ func TestAdd(t *testing.T){
         want := "this is the first key"
 	dic := Dictionary{key:value}
 	err := dic.Add(key, "new one")
-	assertError(t, err, wordExists)
+	assertError(t, err, ErrWordExists)
         assertDefinition(t, dic, key, value, want)
     })
+}
+
+func TestUpdate(t *testing.T){
+    word := "test"
+    definition := "this is just a test"
+    dictionanry := Dictionary{word, definition}
+    newDefinition := "new definition"
+    dictionary.Update(word, newDefinition)
+    assertDefinition(t, dictionary,word, newDefinition)
 }
 
 func assertDefinition(t *testing.T, d Dictionary, key, value, target string){
